@@ -1,32 +1,29 @@
 <script lang="ts">    
-    import jwt_decode from "jwt-decode"
+    import { FacebookAuth } from '@beyonk/svelte-social-auth'
+    import Session from "../lib/Session.svelte";
+    import SessionData from "../utils/SessionData";
+    import Picture from '../utils/Picture';
+    import User from '../utils/User';
     
     let fileInput: HTMLInputElement;
     let files: FileList;
     let avatar: string | null | undefined;
 
     let status: string = "Uninitialized";
-
-//     window.handleCredentialResponse = (response) => {
-//   jwt_decode() 
-//   to decode the credential response.
-//   let responsePayload = jwt_decode(response.credential);
-//   console.log("Token: " + response.credential)
-//   console.log("Token: ", responsePayload)
-//   console.log("ID: " + responsePayload.sub);
-//   console.log('Full Name: ' + responsePayload.name);
-//   console.log('Given Name: ' + responsePayload.given_name);
-//   console.log('Family Name: ' + responsePayload.family_name);
-//   console.log("Image URL: " + responsePayload.picture);
-//   console.log("Email: " + responsePayload.email);
-
-// }
+    let session: SessionData = null;
     
-    function onSuccess(params:any) {
+    function onSuccess(event:CustomEvent) {
+    
+        const FB: any = window['FB'];
+        FB.api('/me', {fields: ['name', 'email', 'picture']}, response => {
+            console.log(response);
+            var picture:Picture = new Picture(response.picture.data.url, response.picture.data.width, response.picture.data.height, response.picture.data.is_silhouette);
+            var user = new User(response.id, response.email, response.name, picture);
+            session = new SessionData(user, picture);
+            console.log(session);
+        });
         
-        var claims = jwt_decode(params.authResponse.accessToken);
-
-        status = "Success: " + claims
+        console.log("Success: " + event.detail.userId);
     }
 
     async function upload(imgBase64: string): Promise<void> {
@@ -53,7 +50,15 @@
     };
 </script>
 
-<div>{status}</div>
+<img width="50" height="50" alt="Logo" src="Logo_100.jpg"/>
+<h1>Lillestrøm skolekorps jubileumsbok</h1>
+
+{#if !session}
+<FacebookAuth 
+    appId="644472207516388" 
+    on:auth-success={onSuccess} />
+{:else}
+<Session {session}/>
 
 <div class="container">    
     {#if avatar}
@@ -67,9 +72,10 @@
         <button class="upload-btn" on:click={ () => fileInput.click() }>Upload</button>    
     </form>
 </div>
+{/if}
 
 <style>
-    .container {
+    .container { 
         display: flex;
         flex-direction: column;
         align-items: center;
