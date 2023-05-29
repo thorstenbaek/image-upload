@@ -16,8 +16,6 @@ fullnameOverride: ""
 
 environmentVariables: 
   ASPNETCORE_ENVIRONMENT: Development
-  IMAGESTORAGE__CONNECTIONSTRING: DefaultEndpointsProtocol=https;AccountName=bookimagesstorageaccount;AccountKey=ryvsutklVMNpyHS6xVhkx1DE2V8bsOx6oux0pEeGQoqDa6/owA1SQRKsWZ8sxODTLpPkAZUUCjpk+ASt07rzDQ==;EndpointSuffix=core.windows.net
-  SearchClient__credential__key: RiCuIUIgCU1fbN2FMBbtaBLY1Bqxjenehb2OJD1zTYAzSeB7WuHZ
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -56,7 +54,7 @@ ingress:
   hosts:
     - host: stenbaek.no
       paths:
-        - path: /book-upload-backend
+        - path: /
           pathType: Prefix
   tls:
     - secretName: image-upload-tls
