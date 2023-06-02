@@ -1,30 +1,44 @@
 <script lang="ts">
     import {sessionStore} from "../stores";
+    import ImageTile from "./ImageTile.svelte";
+    import { sleep } from "../utils/utils";
 
     const apiKey = "RiCuIUIgCU1fbN2FMBbtaBLY1Bqxjenehb2OJD1zTYAzSeB7WuHZ";
+    let doLoadImages = LoadImages($sessionStore.user.email);
+
+    export function Refresh() {
+        doLoadImages = LoadImages($sessionStore.user.email);
+    }
 
     async function LoadImages(user:string): Promise<any[]> {
 
         const res = await fetch(`https://book-upload-backend.stenbaek.no/Images?user=${user}`);
-
         console.log(res.status);
         const json = await res.json();
         console.log(json);
-
         return json;
+    }
+
+    async function DeleteImage(imageId:string) {
+        console.log(`Successfully deleted image ${imageId}`);
+        const res = await fetch(
+            `https://book-upload-backend.stenbaek.no/Images/Delete?id=${imageId}`, {
+                method: "DELETE"});
+        if (res.ok) {
+            await sleep(1000);
+            console.log(`Successfully deleted image ${imageId}`);
+            Refresh();
+        }
     }
     
 </script>
 
 <div class="container">
-    {#await LoadImages($sessionStore.user.email)}
+    {#await doLoadImages}
         Laster bilder...
     {:then images} 
         {#each images as image}
-            <div class="tile">
-                <img src="{image.thumbnailUrl}" alt="image with id {image.id}" height="140" width="140"/>
-                {image.name}
-            </div>
+            <ImageTile {image} on:delete={event => DeleteImage(event.detail)}/>
         {/each}
     {:catch error}
         {error}
@@ -32,17 +46,6 @@
 </div>
 
 <style>
-    .tile {
-        float: left;
-        overflow: hidden;
-        width: 140px;
-        height: 170px;
-        background-color: white;
-        margin: 10px;
-        padding: 8px;
-        filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));        
-    }
-
     .container {
         background-color: lightgray;
     }
