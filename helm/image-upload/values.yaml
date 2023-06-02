@@ -52,7 +52,7 @@ ingress:
     # cert-manager.io/issue-temporary-certificate: "true"
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: stenbaek.no
+    - host: image-upload.stenbaek.no
       paths:
         - path: /
           pathType: Prefix
