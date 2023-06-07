@@ -65,58 +65,79 @@
     </div>
     <div>
         <form>
-            <p>
-                <label for="title">Tittel*:</label>
-                <input id="title" type="text" bind:value={title}/>
-            </p>
-            <p>
-                <label for="eventDate">Hendelsesdato*:</label>
-                <DateInput id="eventDate" bind:date={eventDate}/>
-            </p>
-            <p>
-                <label for="credits">Fotograf*:</label>
-                <input id="credits" type="text" bind:value={credits}/>
-            </p>
-            <p>
-                <label for="description">Beskrivelse:</label>
-                <input id="description" type="text" bind:value={description}/>
-            </p>
-            <p>
-                <label for="category">Kategori:</label>
-                <input id="category" type="text" bind:value={category}/>
-            </p>
-            <p>
-                <button class="upload-btn" on:click={ () => {imageToUpload = null} }>Avbryt</button>    
-                <button class="upload-btn" on:click={ () => {upload(files[0])} }>Last opp bilde</button>        
-            </p>  
+            <table>
+                <tr>
+                    <td>
+                        <label for="title">Tittel*:</label>
+                    </td>
+                    <td>
+                        <input id="title" type="text" bind:value={title}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="eventDate">Hendelsesdato*:</label>
+                    </td>
+                    <td>
+                        <DateInput id="eventDate" bind:date={eventDate}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="credits">Fotograf*:</label>
+                    </td>
+                    <td>
+                        <input id="credits" type="text" bind:value={credits}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="description">Beskrivelse:</label>
+                    </td>
+                    <td>
+                        <input id="description" type="text" bind:value={description}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="category">Kategori:</label>
+                    </td>
+                    <td>
+                        <input id="category" type="text" bind:value={category}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="category">Kategori:</label>
+                    </td>
+                    <td>
+                        <input id="category" type="text" bind:value={category}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="upload-btn" on:click={ () => {imageToUpload = null} }>Avbryt</button>    
+                    </td>
+                    <td>
+                        <button class="upload-btn" on:click={ () => {upload(files[0])} }>Last opp bilde</button>
+                    </td>
+                </tr>    
+            </table>
         </form>
     </div>
 
 {/if}
 <style>
-    form { 
-        display: table;
+    form {
+        margin: 25px;
     }
-    p { 
-        display: table-row;  
-    }
-    label { 
-        display: table-cell; 
-    }
-    input { 
-        display: table-cell; 
-    }
-    button { 
-        display: table-cell; 
-    }
-
     .hidden {
         display: none;
     }
 
     .image {
-        max-width: 400px;
-        max-height: 400px;
+        max-width: 350px;
+        max-height: 350px;
     }
 
     .upload-btn {

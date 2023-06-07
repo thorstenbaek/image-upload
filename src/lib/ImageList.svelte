@@ -33,7 +33,7 @@
     
 </script>
 
-<div class="container">
+<div>
     {#await doLoadImages}
         Laster bilder...
     {:then images} 
@@ -44,9 +44,3 @@
         {error}
     {/await}
 </div>
-
-<style>
-    .container {
-        background-color: lightgray;
-    }
-</style>

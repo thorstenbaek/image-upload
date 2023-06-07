@@ -8,7 +8,7 @@
     import SessionData from "../utils/SessionData";
     import Picture from '../utils/Picture';
     import User from '../utils/User';
-    
+    import { dev } from '$app/environment';
     
 
     let status: string = "Uninitialized";
@@ -24,7 +24,9 @@
     }
 
     onMount(() => {
-        // fakeLogon();
+        if (dev) { 
+            fakeLogon();
+        }
     })
 
     function onSuccess(event:CustomEvent) {    
@@ -43,27 +45,35 @@
     
 </script>
 
+<div class="content">
+    <h1>
+        <img width="75" height="75" alt="Logo" src="Logo_100.png"/>
+        Jubileumsboka
+    </h1>
 
-<h1><img width="50" height="50" alt="Logo" src="Logo_100.jpg"/> Lillestrøm skolekorps jubileumsbok</h1>
 
+    {#if !$sessionStore}
+        <FacebookAuth 
+            appId="644472207516388" 
+            on:auth-success={onSuccess} />
+    {:else}
+        <Session />
 
-{#if !$sessionStore}
-<FacebookAuth 
-    appId="644472207516388" 
-    on:auth-success={onSuccess} />
-{:else}
-
-<Session />
-
-<div class="container">    
-    <UploadPanel on:uploaded={() => imageList.Refresh()}/>
-    <ImageList bind:this={imageList}/>
-    <button on:click={imageList.Refresh()}>Refresh</button>
+        <div class="container">    
+            <UploadPanel on:uploaded={() => imageList.Refresh()}/>
+            <ImageList bind:this={imageList}/>
+            <button on:click={imageList.Refresh()}>Refresh</button>
+        </div>
+    {/if}
 </div>
-{/if}
 
 <style>
-    .container { 
+
+h1 {
+    text-align: center;
+}
+
+.container { 
         display: flex;
         flex-direction: column;
         align-items: center;
