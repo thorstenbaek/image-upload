@@ -1,9 +1,9 @@
 <script lang="ts">
     import {createEventDispatcher} from "svelte";
+    import TileMenu from "./TileMenu.svelte"
 
     const dispatch = createEventDispatcher();
     
-    let active = false;
     export let image: any;
 
     function DeleteImage(id: string) {        
@@ -12,12 +12,16 @@
 
 </script>
 
-<div class="tile" class:active={active} on:mouseenter={() => active=true} on:mouseleave={() => active=false} on:touchstart={() => active=true} on:touchend={() => active=false}>
-    <!-- {#if active}
-        <button class="delete-button" on:click={() => DeleteImage(image.id)}>X</button>
-    {/if} -->
+<div class="tile">
     <img class="thumbnail" src="{image.thumbnailUrl}" alt="image with id {image.id}" />
+    <TileMenu>
+        <ul class="menu">
+            <li>Edit</li>
+            <li on:click={()=>DeleteImage(image.id)}>Delete</li>
+        </ul>
+    </TileMenu>
     <span class="title">{image.name}</span>
+    
 </div>
 
 <style>
@@ -32,6 +36,19 @@
         padding: 8px;        
     }
 
+    .menu {
+        position: absolute;
+        right: 10px; top: 10px;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        padding: 10px 50px 10px 10px;
+        overflow: hidden;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;        
+    }
+
     .title {
         display: inline-block;
         width: 100%;
@@ -39,20 +56,9 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    
-    .active {
-        background-color: white;
-        filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));        
-    }
 
     .thumbnail {
         max-height: 159px; 
         max-width: 159px;
-    }
-
-    .delete-button {
-        position: absolute;
-        top: 15px;
-        right: 15px;
     }
 </style>
