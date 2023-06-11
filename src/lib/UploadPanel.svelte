@@ -58,7 +58,7 @@
                 bind:files 
                 bind:this={fileInput} 
                 on:change={() => getBase64(files[0])}/>
-            <button on:click={ () => fileInput.click() }>Last opp bilde</button>    
+            <button class="rounded" on:click={ () => fileInput.click() }>Last opp bilde</button>    
     {:else}    
     <div class="panel">
         <div>
@@ -117,10 +117,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <button on:click={ () => {imageToUpload = null} }>Avbryt</button>    
+                            <button class="rounded" on:click={ () => {imageToUpload = null} }>Avbryt</button>    
                         </td>
                         <td>
-                            <button on:click={ () => {upload(files[0])} }>Last opp bilde</button>
+                            <button class="rounded" on:click={ () => {upload(files[0])} }>Last opp bilde</button>
                         </td>
                     </tr>    
                 </table>

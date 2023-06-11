@@ -62,7 +62,7 @@
             <UploadPanel on:uploaded={() => imageList.Refresh()}/>
             <ImageList bind:this={imageList}/>
             <div class="bottompanel">
-                <button on:click={imageList.Refresh()}>Oppdater</button>
+                <button class="rounded" on:click={imageList.Refresh()}>Oppdater</button>
             </div>
         </div>
     {/if}
@@ -86,7 +86,7 @@
     }
 
     
-    :global(button) {
+    :global(.rounded) {
         width: 128px;
         height: 32px;
         background-color: black;
@@ -98,7 +98,7 @@
         border-radius: 15px;
     }
 
-    :global(button:hover) {
+    :global(.rounded:hover) {
         background-color: white;
         color: black;
         outline: black solid 2px;
