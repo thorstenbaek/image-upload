@@ -24,7 +24,7 @@
     {#if open}
         X
     {:else}
-        <span class="rotate90">…</span>
+        <div class="rotate">…</div>
     {/if}
 </div>
 
@@ -34,18 +34,22 @@
     }
 
     .hamburger {
+        position: absolute;
+        right: 0px;
+        top: 15px;
+        z-index: 1000;
         font-size: 22px;
         font-weight: bolder;
         text-align: center;
         color: white;
-        position: absolute;
         width: 1.25em;
-        right: 8px;
-        top: 15px;
+        cursor: pointer;
     }
 
-    .rotate90 {
+    .rotate {
         position: absolute;
+        color: white;
+        cursor: pointer;
         transform: rotate(90deg);
         transform-origin: center center;
     }

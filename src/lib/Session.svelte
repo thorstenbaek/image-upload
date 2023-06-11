@@ -7,3 +7,9 @@
         src={$sessionStore.picture.url}/> 
     {$sessionStore.user.name}s opplastede bilder
 </p>
+
+<style>
+    p {
+        margin: 0 20px 0 20px;
+    }
+</style>

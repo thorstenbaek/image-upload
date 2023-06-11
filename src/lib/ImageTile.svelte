@@ -16,7 +16,7 @@
     <img class="thumbnail" src="{image.thumbnailUrl}" alt="image with id {image.id}" />
     <TileMenu>
         <ul class="menu">
-            <li>Edit</li>
+            <!-- <li>Edit</li> -->
             <li on:click={()=>DeleteImage(image.id)}>Delete</li>
         </ul>
     </TileMenu>
@@ -26,10 +26,11 @@
 
 <style>
     .tile {
+        position: relative;
         float: left;
         overflow: hidden;
-        width: 159px;
-        height: 180px;
+        width: 149px;
+        height: 178px;
         background-color: white;
         filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));        
         margin: 10px;
@@ -45,6 +46,8 @@
         padding: 10px 50px 10px 10px;
         overflow: hidden;
         color: white;
+        font-family: sans-serif;
+        font-weight: bold;
         background-color: rgba(0, 0, 0, 0.5);
         cursor: pointer;        
     }
@@ -58,7 +61,7 @@
     }
 
     .thumbnail {
-        max-height: 159px; 
-        max-width: 159px;
+        max-height: 149px; 
+        max-width: 149px;
     }
 </style>

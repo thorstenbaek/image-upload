@@ -50,84 +50,95 @@
         };        
     };    
 </script>
-
-{#if !imageToUpload}
-        <input class="hidden" 
-            id="file-to-upload" 
-            type="file" accept={validExtensions.join(",")} 
-            bind:files 
-            bind:this={fileInput} 
-            on:change={() => getBase64(files[0])}/>
-        <button class="upload-btn" on:click={ () => fileInput.click() }>+</button>    
-{:else}
-    <div>
-        <img class="image" src="{imageToUpload}" alt="d"/>
+    
+    {#if !imageToUpload}
+            <input class="hidden" 
+                id="file-to-upload" 
+                type="file" accept={validExtensions.join(",")} 
+                bind:files 
+                bind:this={fileInput} 
+                on:change={() => getBase64(files[0])}/>
+            <button on:click={ () => fileInput.click() }>Last opp bilde</button>    
+    {:else}    
+    <div class="panel">
+        <div>
+            <img class="image" src="{imageToUpload}" alt="d"/>
+        </div>
+        <div>
+            <form>
+                <table>
+                    <tr>
+                        <td>
+                            <label for="title">Tittel*:</label>
+                        </td>
+                        <td>
+                            <input id="title" type="text" bind:value={title}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="eventDate">Hendelsesdato*:</label>
+                        </td>
+                        <td>
+                            <DateInput id="eventDate" bind:date={eventDate}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="credits">Fotograf*:</label>
+                        </td>
+                        <td>
+                            <input id="credits" type="text" bind:value={credits}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="description">Beskrivelse:</label>
+                        </td>
+                        <td>
+                            <input id="description" type="text" bind:value={description}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="category">Kategori:</label>
+                        </td>
+                        <td>
+                            <input id="category" type="text" bind:value={category}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="category">Kategori:</label>
+                        </td>
+                        <td>
+                            <input id="category" type="text" bind:value={category}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button on:click={ () => {imageToUpload = null} }>Avbryt</button>    
+                        </td>
+                        <td>
+                            <button on:click={ () => {upload(files[0])} }>Last opp bilde</button>
+                        </td>
+                    </tr>    
+                </table>
+            </form>
+        </div>
     </div>
-    <div>
-        <form>
-            <table>
-                <tr>
-                    <td>
-                        <label for="title">Tittel*:</label>
-                    </td>
-                    <td>
-                        <input id="title" type="text" bind:value={title}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="eventDate">Hendelsesdato*:</label>
-                    </td>
-                    <td>
-                        <DateInput id="eventDate" bind:date={eventDate}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="credits">Fotograf*:</label>
-                    </td>
-                    <td>
-                        <input id="credits" type="text" bind:value={credits}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="description">Beskrivelse:</label>
-                    </td>
-                    <td>
-                        <input id="description" type="text" bind:value={description}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="category">Kategori:</label>
-                    </td>
-                    <td>
-                        <input id="category" type="text" bind:value={category}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="category">Kategori:</label>
-                    </td>
-                    <td>
-                        <input id="category" type="text" bind:value={category}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button class="upload-btn" on:click={ () => {imageToUpload = null} }>Avbryt</button>    
-                    </td>
-                    <td>
-                        <button class="upload-btn" on:click={ () => {upload(files[0])} }>Last opp bilde</button>
-                    </td>
-                </tr>    
-            </table>
-        </form>
-    </div>
-
 {/if}
 <style>
+    .panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        background: lightgray;
+    }
+
     form {
         margin: 25px;
     }
@@ -136,24 +147,8 @@
     }
 
     .image {
+        padding: 20px;
         max-width: 350px;
         max-height: 350px;
-    }
-
-    .upload-btn {
-        width: 128px;
-        height: 32px;
-        background-color: black;
-        font-family: sans-serif;
-        color: white;
-        font-weight: bold;
-        border: none;
-        margin: 10px;
-    }
-
-    .upload-btn:hover {
-        background-color: white;
-        color: black;
-        outline: black solid 2px;
     }
 </style>

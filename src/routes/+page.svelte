@@ -51,7 +51,6 @@
         Jubileumsboka
     </h1>
 
-
     {#if !$sessionStore}
         <FacebookAuth 
             appId="644472207516388" 
@@ -62,20 +61,47 @@
         <div class="container">    
             <UploadPanel on:uploaded={() => imageList.Refresh()}/>
             <ImageList bind:this={imageList}/>
-            <button on:click={imageList.Refresh()}>Refresh</button>
+            <div class="bottompanel">
+                <button on:click={imageList.Refresh()}>Oppdater</button>
+            </div>
         </div>
     {/if}
 </div>
 
-<style>
+<style global>
 
-h1 {
-    text-align: center;
-}
-
-.container { 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    h1 {
+        
+        padding: 2px 0 0 0;
+        margin: 0;
     }
+
+    .container { 
+        width: 390px;
+        background-color: rgb(240, 240, 240);
+    }
+    
+    .bottompanel {
+        clear:both;
+    }
+
+    
+    :global(button) {
+        width: 128px;
+        height: 32px;
+        background-color: black;
+        font-family: sans-serif;
+        color: white;
+        font-weight: bold;
+        border: none;
+        margin: 10px;
+        border-radius: 15px;
+    }
+
+    :global(button:hover) {
+        background-color: white;
+        color: black;
+        outline: black solid 2px;
+    }
+    
 </style>
