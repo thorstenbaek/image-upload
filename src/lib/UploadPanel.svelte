@@ -3,7 +3,8 @@
     import {sessionStore} from "../stores";
     import {createEventDispatcher} from "svelte";
     import { sleep } from "../utils/utils";
-
+    import imageLoad from "../actions/imageLoad";
+ 
     const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
     const dispatch = createEventDispatcher();
     let imageToUpload: any;
@@ -15,6 +16,8 @@
     let credits: string;
     let description: string;
     let category: string;
+    let latitude: number;
+    let longitude: number;
 
     async function upload(file: File): Promise<void> {        
         var formData = new FormData();
@@ -26,6 +29,8 @@
         formData.append("Metadata.EventDate", eventDate.toDateString());
         formData.append("Metadata.Tags", "test, test");
         formData.append("Metadata.User", $sessionStore.user.email);
+        formData.append("Metadata.Latitude", latitude.toString());
+        formData.append("Metadata.Longitude", longitude.toString());
 
         var response = await fetch("https://book-upload-backend.stenbaek.no/Images/Upload", {
             method: "POST",
@@ -49,6 +54,12 @@
             }
         };        
     };    
+
+    function handlePosition(event) {
+        latitude = event.detail.latitude;
+        longitude = event.detail.longitude;
+    }
+    
 </script>
     
     {#if !imageToUpload}
@@ -62,7 +73,7 @@
     {:else}    
     <div class="panel">
         <div>
-            <img class="image" src="{imageToUpload}" alt="d"/>
+            <img class="image" src="{imageToUpload}" alt="d" use:imageLoad on:position="{event => handlePosition(event)}"/>
         </div>
         <div>
             <form>
@@ -109,10 +120,18 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="category">Kategori:</label>
+                            <label for="latitude">Breddegrad:</label>
                         </td>
                         <td>
-                            <input id="category" type="text" bind:value={category}/>
+                            <input id="latitude" type="number" bind:value={latitude}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="longitude">Lengdegrad:</label>
+                        </td>
+                        <td>
+                            <input id="longitude" type="number" bind:value={longitude}/>
                         </td>
                     </tr>
                     <tr>

@@ -22,6 +22,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"dayjs": "^1.11.8"
+		"dayjs": "^1.11.8",
+		"exifr": "^7.1.3"
 	}
 }
