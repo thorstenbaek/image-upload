@@ -55,7 +55,7 @@
         };        
     };    
 
-    function handlePosition(event) {
+    function handlePosition(event: any) {
         latitude = event.detail.latitude;
         longitude = event.detail.longitude;
     }
@@ -123,7 +123,7 @@
                             <label for="latitude">Breddegrad:</label>
                         </td>
                         <td>
-                            <input id="latitude" type="number" bind:value={latitude}/>
+                            <input id="latitude" type="number" step="0.1" readonly bind:value={latitude}/>
                         </td>
                     </tr>
                     <tr>
@@ -131,7 +131,7 @@
                             <label for="longitude">Lengdegrad:</label>
                         </td>
                         <td>
-                            <input id="longitude" type="number" bind:value={longitude}/>
+                            <input id="longitude" type="number" step="0.1" readonly bind:value={longitude}/>
                         </td>
                     </tr>
                     <tr>
