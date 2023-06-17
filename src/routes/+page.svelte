@@ -70,6 +70,10 @@
 
 <style global>
 
+    * {
+        background: rgb(240, 240, 240);
+    }
+
     h1 {
         
         padding: 2px 0 0 0;
@@ -77,8 +81,7 @@
     }
 
     .container { 
-        width: 390px;
-        background-color: rgb(240, 240, 240);
+        width: 390px;        
     }
     
     .bottompanel {
