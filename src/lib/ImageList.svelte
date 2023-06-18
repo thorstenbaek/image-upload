@@ -2,9 +2,7 @@
     import {onMount} from "svelte";
     import {sessionStore} from "../stores";
     import ImageTile from "./ImageTile.svelte";
-    import { sleep } from "../utils/utils";
 
-    const apiKey = "RiCuIUIgCU1fbN2FMBbtaBLY1Bqxjenehb2OJD1zTYAzSeB7WuHZ";
     let images: any[];
     let status: any;
 
