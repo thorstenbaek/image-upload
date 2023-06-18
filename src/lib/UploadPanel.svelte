@@ -15,9 +15,11 @@
     let title: string;
     let credits: string = $sessionStore.user.name;
     let description: string;
-    let category: string;
     let latitude: number;
     let longitude: number;
+    
+    let selectedCategory: string;
+    let categories = ["UK", "MK", "JK", "AK", "annet"];
 
     async function upload(file: File): Promise<void> {        
         var formData = new FormData();
@@ -25,7 +27,7 @@
         formData.append("Metadata.Name", title);
         formData.append("Metadata.Credits", credits);
         formData.append("Metadata.Description", description);
-        formData.append("Metadata.Category", category);
+        formData.append("Metadata.Category", selectedCategory);
         formData.append("Metadata.EventDate", eventDate.toDateString());
         formData.append("Metadata.Tags", "test, test");
         formData.append("Metadata.User", $sessionStore.user.email);
@@ -112,10 +114,17 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="category">Kategori:</label>
+                            <label for="category">Korps:</label>
                         </td>
                         <td>
-                            <input id="category" type="text" bind:value={category}/>
+                            <!-- <input id="category" type="dropdown" bind:value={category}/> -->
+                            <select bind:value={selectedCategory}>
+                                {#each categories as category}
+                                    <option value={category}>
+                                        {category}
+                                    </option>
+                                {/each}
+                            </select>
                         </td>
                     </tr>
                     <tr class="hidden">

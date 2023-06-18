@@ -9,6 +9,7 @@
     import Picture from '../utils/Picture';
     import User from '../utils/User';
     import { dev } from '$app/environment';
+    import Information from "$lib/Information.svelte";
     
 
     let status: string = "Uninitialized";
@@ -55,6 +56,8 @@
         <FacebookAuth 
             appId="644472207516388" 
             on:auth-success={onSuccess} />
+
+        <Information/>
     {:else}
         <Session />
 
@@ -63,7 +66,7 @@
             <ImageList bind:this={imageList}/>
             <div class="bottompanel">
                 <button class="rounded" on:click={imageList.Refresh()}>Oppdater</button>
-            </div>
+            </div>            
         </div>
     {/if}
 </div>
