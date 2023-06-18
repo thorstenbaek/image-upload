@@ -21,7 +21,7 @@ export default function imageLoad(img: HTMLImageElement) {
                     latitude: 0, 
                     longitude: 0
                 }}));
-        }
+        }                
     }
 
     if (img.complete) {

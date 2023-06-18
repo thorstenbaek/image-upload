@@ -20,7 +20,7 @@
     }
 
     async function DeleteImage(imageId:string) {
-        console.log(`Successfully deleted image ${imageId}`);
+        console.log(`Deleting image ${imageId}`);
         const res = await fetch(
             `https://book-upload-backend.stenbaek.no/Images/Delete?id=${imageId}`, {
                 method: "DELETE"});

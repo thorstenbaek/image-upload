@@ -13,7 +13,7 @@
     
     let eventDate: Date = new Date();
     let title: string;
-    let credits: string;
+    let credits: string = $sessionStore.user.name;
     let description: string;
     let category: string;
     let latitude: number;
@@ -73,7 +73,7 @@
     {:else}    
     <div class="panel">
         <div>
-            <img class="image" src="{imageToUpload}" alt="d" use:imageLoad on:position="{event => handlePosition(event)}"/>
+            <img class="image" src="{imageToUpload}" alt="d" use:imageLoad on:position="{event => handlePosition(event)}" />
         </div>
         <div>
             <form>
@@ -99,7 +99,7 @@
                             <label for="credits">Fotograf*:</label>
                         </td>
                         <td>
-                            <input id="credits" type="text" bind:value={credits}/>
+                            <input id="credits" type="text" bind:value={credits} />
                         </td>
                     </tr>
                     <tr>
@@ -118,7 +118,7 @@
                             <input id="category" type="text" bind:value={category}/>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="hidden">
                         <td>
                             <label for="latitude">Breddegrad:</label>
                         </td>
@@ -126,12 +126,12 @@
                             <input id="latitude" type="number" step="0.1" readonly bind:value={latitude}/>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="hidden">
                         <td>
                             <label for="longitude">Lengdegrad:</label>
                         </td>
                         <td>
-                            <input id="longitude" type="number" step="0.1" readonly bind:value={longitude}/>
+                            <input id="longitude" type="number" step="0.1" readonly bind:value={longitude} />
                         </td>
                     </tr>
                     <tr>
