@@ -1,38 +1,24 @@
-# create-svelte
+# Opplasting av bilder
+Vi ønsker mest mulig bilder tatt av foreldre og barn i korpset til jubileumsboka.
+Da bilder ofte mister sin kvalitet når de lastes opp i sosiale medier eller sendes på e-post, og dermed ikke lenger er egnet til å trykke, har vi denne appen, der dere selv kan laste opp bilder til oss.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Hvem er du?
+For at vi skal ha en viss kontroll på hvem som laster opp bildene må du logge deg på via Facebook. Hvis du kom til denne siden via en lenke i Facebook-appen eller Messenger, må du åpne den i Safari og logge på Facebook på nytt her. 
 
-## Creating a project
+## Hvordan gjør jeg det?
+Når du har logget inn ser du ditt eget profilbilde på Facebook, ditt navn og en knapp for å laste opp bilder. Trykk på denne for å laste opp et bilde. Fra mobilen kan du velge å søke i bildearkivet ditt eller ta et nytt bilde. Velg bildet du ønsker å laste opp og du får opp ditt bilde og noen felter der du kan skrive litt om bildet. 
 
-If you're seeing this, you've probably already done this step. Congrats!
+* Tittel - fritt valgt tittel på bildet
+* Hendelsesdato - når ble dette bildet tatt?
+* Fotograf - hvem skal kretideres for dette bildet?
+* Beskrivelse - skriv gjerne litt om bildet ditt her
+* Korps - hvilket korps er på bildet? Hvis bildet viser noe annet enn korps, velger du __annet__.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Du kan avbryte opplasting av dette bildet ved å trykke __Avbryt__
+Trykker du __Last opp bilde__ blir bildet og opplysningene sendt til oss, og du kommer tilbake til forsiden som nå viser en liste med alle bildene du har lastet opp.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Hvis du angrer deg, eller gjorde noe feil kan du slette bildet ved å trykke på menyen på hvert bilde. Da får du opp en meny med et valg for å Slette. Du kan lukke denne menyen ved å trykke utenfor eller på __X__
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Problemer?
+Løsningen er først og fremst tilpasset visning på mobil, men den fungerer også teknisk i nettleseren på PC.
+Ta kontakt med Thor Stenbæk på e-post thorstenbaek@gmail.com for support.
