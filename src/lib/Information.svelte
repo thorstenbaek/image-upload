@@ -2,7 +2,7 @@
     import {onMount} from "svelte";
     import {marked} from "marked";
 
-    let html: string;
+    let html: string = "Laster data...";
 
     onMount(async () => {
         const res = await fetch("https://raw.githubusercontent.com/thorstenbaek/image-upload/main/README.md");

@@ -17,7 +17,7 @@
     <TileMenu>
         <ul class="menu">
             <!-- <li>Edit</li> -->
-            <li on:click={()=>DeleteImage(image.id)}>Delete</li>
+            <li on:click={()=>DeleteImage(image.id)}>Slett</li>
         </ul>
     </TileMenu>
     <span class="title">{image.name}</span>
