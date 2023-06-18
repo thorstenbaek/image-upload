@@ -5,7 +5,6 @@
     import { sleep } from "../utils/utils";
 
     const apiKey = "RiCuIUIgCU1fbN2FMBbtaBLY1Bqxjenehb2OJD1zTYAzSeB7WuHZ";
-    let doLoadImages = LoadImages($sessionStore.user.email);
     let images: any[];
     let status: any;
 
@@ -21,15 +20,14 @@
         try {
             status = "Loading images..."
             const res = await fetch(`https://book-upload-backend.stenbaek.no/Images?user=${user}`);
-            console.log(res.status);
             const json = await res.json();
-            console.log(json);
             status = ""
             return json;    
+
         } catch (error) {
             status = error;
+            throw(error);
         }
-        
     }
 
     async function DeleteImage(imageId:string) {
@@ -51,14 +49,5 @@
         {#each images as image}
             <ImageTile {image} on:delete={event => DeleteImage(event.detail)}/>
         {/each}
-    {/if}
-    <!--{#await doLoadImages}
-        Laster bilder...
-    {:then images} 
-        {#each images as image}
-            <ImageTile {image} on:delete={event => DeleteImage(event.detail)}/>
-        {/each}
-    {:catch error}
-        {error}
-    {/await}-->
+    {/if}    
 </div>
