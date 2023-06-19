@@ -21,7 +21,7 @@ Trykker du __Last opp bilde__ blir bildet og opplysningene sendt til oss, og du 
 
 Hvis du angrer deg, eller gjorde noe feil kan du slette bildet ved å trykke på menyen øverst til høyre i hvert bilde (tre prikker). Da får du opp en meny med valg for __Slett__. Du kan lukke denne menyen ved å trykke utenfor eller på __X__
 
-## §
+## § Juridisk
 Vi lagrer kun navn og e-postadresse å holde orden på hvem som har lastet opp bildene og for å kreditere riktig fotografer. Alle data lagret elektronisk vil bli slettet straks jubileumsboka er sendt til trykking. 
 
 Ved å bruke denne appen aksepterer du at vi lagrer data om deg. 
@@ -35,4 +35,5 @@ Løsningen er først og fremst tilpasset mobil, men den fungerer også teknisk i
 Ta kontakt med Thor Stenbæk på e-post thorstenbaek@gmail.com for support.
 
 Vennlig hilsen
+
 Redaksjonen for jubileumsboka

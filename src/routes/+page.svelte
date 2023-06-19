@@ -57,18 +57,18 @@
             appId="644472207516388" 
             on:auth-success={onSuccess} />
 
-        <Information/>
+        
     {:else}
         <Session />
 
         <div class="container">    
             <UploadPanel on:uploaded={() => imageList.Refresh()}/>
-            <ImageList bind:this={imageList}/>
-            <div class="bottompanel">
-                <button class="rounded" on:click={imageList.Refresh()}>Oppdater</button>
-            </div>            
+            <ImageList bind:this={imageList}/>                      
         </div>
     {/if}
+    <div class="bottompanel">
+        <Information/>
+    </div>
 </div>
 
 <style global>
@@ -84,7 +84,7 @@
     }
 
     .container { 
-        width: 390px;        
+        width: 390px;                
     }
     
     .bottompanel {

@@ -5,6 +5,7 @@
     const dispatch = createEventDispatcher();
     
     export let image: any;
+    let thumbSize: number = 149;
 
     function DeleteImage(id: string) {        
         dispatch("delete", id);
@@ -12,15 +13,15 @@
 
 </script>
 
-<div class="tile">
-    <img class="thumbnail" src="{image.thumbnailUrl}" alt="image with id {image.id}" />
+<div class="tile" style="padding: 5px 5px {thumbSize/15}px 5px;">
+    <img src="{image.thumbnailUrl}" alt="image with id {image.id}" style="max-width:{thumbSize}px;max-height:{thumbSize}px"/>
     <TileMenu>
         <ul class="menu">
             <!-- <li>Edit</li> -->
             <li on:click={()=>DeleteImage(image.id)}>Slett</li>
         </ul>
     </TileMenu>
-    <span class="title">{image.name}</span>
+    <div class="title" style="visibility:{thumbSize>120?'visible':'hidden'}">{image.name}</div>
     
 </div>
 
@@ -29,21 +30,18 @@
         position: relative;
         float: left;
         overflow: hidden;
-        width: 149px;
-        height: 178px;
         background-color: white;
         filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));        
-        margin: 10px;
-        padding: 8px;        
+        margin: 10px;        
     }
 
     .menu {
         position: absolute;
-        right: 10px; top: 10px;
+        right: 5px; top: 5px;
         list-style-type: none;
         margin: 0;
         padding: 0;
-        padding: 10px 50px 10px 10px;
+        padding: 10px 25px 10px 10px;
         overflow: hidden;
         color: white;
         font-family: sans-serif;
@@ -53,15 +51,8 @@
     }
 
     .title {
-        display: inline-block;
-        width: 100%;
         height: 20px;
         overflow: hidden;
         text-overflow: ellipsis;
-    }
-
-    .thumbnail {
-        max-height: 149px; 
-        max-width: 149px;
-    }
+    }    
 </style>
