@@ -7,7 +7,7 @@
  
     const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
     const dispatch = createEventDispatcher();
-    let imageToUpload: any;
+    let imagesToUpload: string[] = [];
     let fileInput: HTMLInputElement;
     let files: FileList;
     
@@ -21,40 +21,55 @@
     let selectedCategory: string;
     let categories = ["UK", "MK", "JK", "AK", "annet"];
 
-    async function upload(file: File): Promise<void> {        
-        var formData = new FormData();
-        formData.append("Blob", file);
-        formData.append("Metadata.Name", title);
-        formData.append("Metadata.Credits", credits);
-        formData.append("Metadata.Description", description);
-        formData.append("Metadata.Category", selectedCategory);
-        formData.append("Metadata.EventDate", eventDate.toDateString());
-        formData.append("Metadata.Tags", "test, test");
-        formData.append("Metadata.User", $sessionStore.user.email);
-        formData.append("Metadata.Latitude", latitude.toString());
-        formData.append("Metadata.Longitude", longitude.toString());
+    async function upload(files: FileList): Promise<void> {        
+        
+        var responses: Response[] = [];
 
-        var response = await fetch("https://book-upload-backend.stenbaek.no/Images/Upload", {
-            method: "POST",
-            body: formData
+        await Array.from(files).forEach(async file => {
+            var formData = new FormData();
+
+            formData.append("Blob", file)
+            formData.append("Metadata.Name", title);
+            formData.append("Metadata.Credits", credits);
+            formData.append("Metadata.Description", description);
+            formData.append("Metadata.Category", selectedCategory);
+            formData.append("Metadata.EventDate", eventDate.toDateString());
+            formData.append("Metadata.Tags", "test, test");
+            formData.append("Metadata.User", $sessionStore.user.email);
+            formData.append("Metadata.Latitude", latitude.toString());
+            formData.append("Metadata.Longitude", longitude.toString());
+            
+            var response = await fetch("https://book-upload-backend.stenbaek.no/Images/Upload", {
+                method: "POST",
+                body: formData
+            });
+            
+            responses.push(response);
+        });            
+        
+        responses.forEach(response => {
+            if (!response.ok) {
+                console.error("upload failed");
+                return; //display error
+            }
         });
         
-        if(response.ok) {
-            await sleep(1000);
-            imageToUpload = null;            
-            dispatch("uploaded");
-        }
-        
+        await sleep(1000);
+        imagesToUpload = [];                    
+        dispatch("uploaded");
     }
         
-    function getBase64(image:File):void {
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
-        reader.onload = async e => {
-            if (e.target) {                
-                imageToUpload = e.target.result
-            }
-        };        
+    function getBase64(images:FileList):void {                
+        const imagesArray = Array.from(images);        
+        imagesArray.forEach(image => {
+            const reader = new FileReader();
+            reader.readAsDataURL(image);
+            reader.onload = async e => {
+                if (e.target) {                
+                    imagesToUpload = [...imagesToUpload, <string>e.target.result];              
+                }
+            };        
+        });
     };    
 
     function handlePosition(event: any) {
@@ -63,19 +78,22 @@
     }
     
 </script>
-    
-    {#if !imageToUpload}
-            <input class="hidden" 
-                id="file-to-upload" 
-                type="file" accept={validExtensions.join(",")} 
-                bind:files 
-                bind:this={fileInput} 
-                on:change={() => getBase64(files[0])}/>
-            <button class="rounded" on:click={ () => fileInput.click() }>Last opp bilde</button>    
-    {:else}    
+    {#if imagesToUpload.length == 0}
+        <input class="hidden" 
+            id="file-to-upload" 
+            type="file" accept={validExtensions.join(",")} 
+            bind:files
+            multiple
+            bind:this={fileInput} 
+            on:change={() => getBase64(files)}/>
+        <button class="rounded" on:click={ () => fileInput.click() }>Last opp bilde</button>        
+    {:else}
     <div class="panel">
-        <div>
-            <img class="image" src="{imageToUpload}" alt="d" use:imageLoad on:position="{event => handlePosition(event)}" />
+        <div class="preview">
+            {#each imagesToUpload as image, index}
+                <!-- <span style="position:absolute;top={index*10}px;left={index*10}px"> -->
+                <img style="position:absolute;top:{index*10}px;left:{index*10}px" class="image" src="{image}" alt="d" use:imageLoad on:position="{event => handlePosition(event)}" />
+            {/each}
         </div>
         <div>
             <form>
@@ -145,10 +163,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <button class="rounded" on:click={ () => {imageToUpload = null} }>Avbryt</button>    
+                            <button class="rounded" on:click={ () => {imagesToUpload = []} }>Avbryt</button>    
                         </td>
                         <td>
-                            <button class="rounded" on:click={ () => {upload(files[0])} }>Last opp bilde</button>
+                            <button class="rounded" on:click={ () => {upload(files)} }>Last opp bilde</button>
                         </td>
                     </tr>    
                 </table>
@@ -157,6 +175,11 @@
     </div>
 {/if}
 <style>
+    .preview {
+        position: relative;
+        height: 420px;        
+    }
+
     .panel {
         position: fixed;
         top: 0;
@@ -171,6 +194,7 @@
     form {
         margin: 25px;
     }
+    
     .hidden {
         display: none;
     }
