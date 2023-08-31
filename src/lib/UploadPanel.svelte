@@ -2,92 +2,111 @@
     import DateInput from "./DateInput.svelte";
     import {sessionStore} from "../stores";
     import {createEventDispatcher} from "svelte";
-    import { sleep } from "../utils/utils";
-    import imageLoad from "../actions/imageLoad";
  
     const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
     const dispatch = createEventDispatcher();
-    let imageToUpload: any;
-    let fileInput: HTMLInputElement;
+    
     let files: FileList;
+    let uploads: any[] = [];
+    let canUpload = true;
+    
+    let fileInput: HTMLInputElement;
     
     let eventDate: Date = new Date();
     let title: string;
     let credits: string = $sessionStore.user.name;
     let description: string;
-    let latitude: number;
-    let longitude: number;
     
     let selectedCategory: string;
     let categories = ["UK", "MK", "JK", "AK", "annet"];
 
-    async function upload(file: File): Promise<void> {        
-        var formData = new FormData();
-        formData.append("Blob", file);
-        formData.append("Metadata.Name", title);
-        formData.append("Metadata.Credits", credits);
-        formData.append("Metadata.Description", description);
-        formData.append("Metadata.Category", selectedCategory);
-        formData.append("Metadata.EventDate", eventDate.toDateString());
-        formData.append("Metadata.Tags", "test, test");
-        formData.append("Metadata.User", $sessionStore.user.email);
-        formData.append("Metadata.Latitude", latitude.toString());
-        formData.append("Metadata.Longitude", longitude.toString());
+    async function upload(): Promise<void> {        
+        
+        canUpload = false;
 
-        var response = await fetch("https://book-upload-backend.stenbaek.no/Images/Upload", {
-            method: "POST",
-            body: formData
-        });
+        var responses: Array<any> = new Array<any>();
+
+        var index: number = 0;
         
-        if(response.ok) {
-            await sleep(1000);
-            imageToUpload = null;            
-            dispatch("uploaded");
-        }
+        //Consider using await Promise.all(uploads.map(async (upload) => {... here
+        //Also see if each item can be created and added to image list before upload - displaying status all the way
+        for(const upload of uploads) {
+            var formData = new FormData();
+
+            var defaultTitle = upload.file.name.replace(/\.[^/.]+$/, "");            
+
+            formData.append("Blob", upload.file)
+            formData.append("Metadata.Name", title ?? defaultTitle);
+            formData.append("Metadata.Credits", credits);
+            formData.append("Metadata.Description", description ?? defaultTitle);
+            formData.append("Metadata.Category", selectedCategory);
+            formData.append("Metadata.EventDate", eventDate.toDateString());
+            formData.append("Metadata.Tags", "test, test");
+            formData.append("Metadata.User", $sessionStore.user.email);            
+
+            var response = await fetch("https://book-upload-backend.stenbaek.no/Images/Upload", {
+                method: "POST",
+                body: formData
+            });
+            var newId = await response.text();            
+            responses.push({response: response, id:newId, image:upload.image, title:title ?? defaultTitle});
+
+            index++;
+        };            
         
-    }
-        
-    function getBase64(image:File):void {
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
-        reader.onload = async e => {
-            if (e.target) {                
-                imageToUpload = e.target.result
+        responses.forEach(response => {
+            if (!response.response.ok) {
+                console.error("upload failed");
+                return; //display error
             }
-        };        
-    };    
-
-    function handlePosition(event: any) {
-        latitude = event.detail.latitude;
-        longitude = event.detail.longitude;
+        });
+        dispatch("uploaded", {responses});
+        uploads = [];     
+        canUpload = true;               
     }
+        
+    function readFiles(files:FileList):void {                
+        const filesArray = Array.from(files);        
+        filesArray.forEach(file => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async e => {
+                if (e.target) {                
+                    uploads = [...uploads, {id: "", file: file, image:<string>e.target.result}];              
+                }
+            };        
+        });
+    };    
     
 </script>
-    
-    {#if !imageToUpload}
-            <input class="hidden" 
-                id="file-to-upload" 
-                type="file" accept={validExtensions.join(",")} 
-                bind:files 
-                bind:this={fileInput} 
-                on:change={() => getBase64(files[0])}/>
-            <button class="rounded" on:click={ () => fileInput.click() }>Last opp bilde</button>    
-    {:else}    
+    {#if uploads.length == 0}
+        <input class="hidden" 
+            id="file-to-upload" 
+            type="file" accept={validExtensions.join(",")} 
+            bind:files
+            multiple
+            bind:this={fileInput} 
+            on:change={() => readFiles(files)}/>
+        <button class="rounded" on:click={ () => fileInput.click() }>Last opp bilder</button>        
+    {:else}
     <div class="panel">
-        <div>
-            <img class="image" src="{imageToUpload}" alt="d" use:imageLoad on:position="{event => handlePosition(event)}" />
+        <div class="preview">
+            {#each uploads as upload, index}
+                <!-- <span style="position:absolute;top={index*10}px;left={index*10}px"> -->
+                <img style="position:absolute;top:{index*10}px;left:{index*10}px" class="image" src="{upload.image}" alt="preview of upload" />
+            {/each}
         </div>
         <div>
             <form>
                 <table>
-                    <tr>
+                    <!-- <tr>
                         <td>
                             <label for="title">Tittel*:</label>
                         </td>
                         <td>
                             <input id="title" type="text" bind:value={title}/>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td>
                             <label for="eventDate">Hendelsesdato*:</label>
@@ -103,15 +122,15 @@
                         <td>
                             <input id="credits" type="text" bind:value={credits} />
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>                    
+                    <!-- <tr>
                         <td>
                             <label for="description">Beskrivelse:</label>
                         </td>
                         <td>
                             <input id="description" type="text" bind:value={description}/>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td>
                             <label for="category">Korps:</label>
@@ -126,29 +145,13 @@
                                 {/each}
                             </select>
                         </td>
-                    </tr>
-                    <tr class="hidden">
-                        <td>
-                            <label for="latitude">Breddegrad:</label>
-                        </td>
-                        <td>
-                            <input id="latitude" type="number" step="0.1" readonly bind:value={latitude}/>
-                        </td>
-                    </tr>
-                    <tr class="hidden">
-                        <td>
-                            <label for="longitude">Lengdegrad:</label>
-                        </td>
-                        <td>
-                            <input id="longitude" type="number" step="0.1" readonly bind:value={longitude} />
-                        </td>
-                    </tr>
+                    </tr>                    
                     <tr>
                         <td>
-                            <button class="rounded" on:click={ () => {imageToUpload = null} }>Avbryt</button>    
+                            <button class="rounded" on:click={ () => {uploads = []} }>Avbryt</button>    
                         </td>
                         <td>
-                            <button class="rounded" on:click={ () => {upload(files[0])} }>Last opp bilde</button>
+                            <button class="rounded" disabled={!canUpload} on:click={ () => {upload()} }>Last opp bilder</button>
                         </td>
                     </tr>    
                 </table>
@@ -157,6 +160,11 @@
     </div>
 {/if}
 <style>
+    .preview {
+        position: relative;
+        height: 420px;        
+    }
+
     .panel {
         position: fixed;
         top: 0;
@@ -171,6 +179,7 @@
     form {
         margin: 25px;
     }
+    
     .hidden {
         display: none;
     }

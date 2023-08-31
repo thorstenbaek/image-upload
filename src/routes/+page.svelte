@@ -43,6 +43,15 @@
         console.log("Success: " + event.detail.userId);
     }
 
+    function onUploaded(event: CustomEvent) {
+        var detailArray = event.detail;
+        console.log(detailArray.responses.length);
+        Array.from(detailArray.responses).forEach((upload: any) => 
+        {
+            console.log(upload);
+            imageList.AddUpload(upload);
+        });        
+    }
     
 </script>
 
@@ -56,13 +65,11 @@
         <FacebookAuth 
             appId="644472207516388" 
             on:auth-success={onSuccess} />
-
-        
     {:else}
         <Session />
 
         <div class="container">    
-            <UploadPanel on:uploaded={() => imageList.Refresh()}/>
+            <UploadPanel on:uploaded={onUploaded}/>
             <ImageList bind:this={imageList}/>                      
         </div>
     {/if}
@@ -91,7 +98,6 @@
         clear:both;
     }
 
-    
     :global(.rounded) {
         width: 128px;
         height: 32px;
@@ -102,12 +108,19 @@
         border: none;
         margin: 10px;
         border-radius: 15px;
-    }
+    }    
 
     :global(.rounded:hover) {
         background-color: white;
         color: black;
         outline: black solid 2px;
     }
+
+    :global(.rounded:disabled) {
+        background-color: gray;
+        color: white;
+        outline: none;
+    }
+
     
 </style>
