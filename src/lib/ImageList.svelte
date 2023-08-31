@@ -2,7 +2,9 @@
     import {onMount} from "svelte";
     import {sessionStore} from "../stores";
     import ImageTile from "./ImageTile.svelte";
+    import UploadTile from "./UploadTile.svelte";
 
+    let uploads: any[];
     let images: any[];
     let status: any;
 
@@ -14,12 +16,17 @@
         images = await LoadImages($sessionStore.user.email);
     }
 
+    export function AddUpload(upload: any) {
+        uploads = [...uploads, upload];
+    }
+
     async function LoadImages(user:string): Promise<any[]> {
         try {
             status = "Loading images..."
             const res = await fetch(`https://book-upload-backend.stenbaek.no/Images?user=${user}`);
             const json = await res.json();
-            status = ""
+            status = "";
+            uploads = [];
             return json;    
 
         } catch (error) {
@@ -29,7 +36,6 @@
     }
 
     async function DeleteImage(imageId:string) {
-        console.log(`Deleting image ${imageId}`);
         const res = await fetch(
             `https://book-upload-backend.stenbaek.no/Images/Delete?id=${imageId}`, {
                 method: "DELETE"});
@@ -43,7 +49,12 @@
 
 <div>
     <p>{status}</p>
-    {#if images}
+    {#if uploads}   
+        {#each uploads as upload}
+            <UploadTile {upload}/>
+        {/each}
+    {/if}
+    {#if images}        
         {#each images as image}
             <ImageTile {image} on:delete={event => DeleteImage(event.detail)}/>
         {/each}
