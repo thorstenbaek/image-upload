@@ -23,7 +23,8 @@
 <div class="hamburger" on:click={handleOnClick} use:clickOutside on:click_outside={handleClickOutside}>
     {#if open}
         X
-    {:else}
+    {:else}        
+        <div class="rotate_shadow">…</div>
         <div class="rotate">…</div>
     {/if}
 </div>
@@ -36,21 +37,23 @@
     .hamburger {
         position: absolute;
         right: 0px;
-        top: 15px;
+        top: 0.5em;
         z-index: 1000;
         font-size: 22px;
         font-weight: bolder;
-        text-align: center;
         color: white;
-        width: 1.25em;
+        width: .75em;
         cursor: pointer;
     }
 
     .rotate {
         position: absolute;
-        color: white;
-        cursor: pointer;
         transform: rotate(90deg);
-        transform-origin: center center;
+    }
+    
+    .rotate_shadow {
+        position: absolute;
+        color: #333333;
+        transform: translate(1px, 1px) rotate(90deg);                
     }
 </style>

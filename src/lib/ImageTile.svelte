@@ -14,25 +14,34 @@
 </script>
 
 <div class="tile" style="padding: 5px 5px {thumbSize/15}px 5px;">
-    <img src="{image.thumbnailUrl}" alt="image with id {image.id}" style="max-width:{thumbSize}px;max-height:{thumbSize}px"/>
-    <TileMenu>
-        <ul class="menu">
-            <!-- <li>Edit</li> -->
-            <li on:click={()=>DeleteImage(image.id)}>Slett</li>
-        </ul>
-    </TileMenu>
-    <div class="title" style="visibility:{thumbSize>120?'visible':'hidden'}">{image.name}</div>
-    
+    <div class="center" style="width:{thumbSize}px;height:{thumbSize}px;">
+        <img src="{image.thumbnailUrl}" alt="image with id {image.id}" style="max-width:{thumbSize}px;max-height:{thumbSize}px"/>
+        <TileMenu>
+            <ul class="menu">
+                <!-- <li>Edit</li> -->
+                <li tabindex="-1" on:mouseup={()=>DeleteImage(image.id)}>Slett</li>
+            </ul>
+        </TileMenu>
+    </div>
+    <div class="title" style="visibility:{image.name != "undefined" ? 'inherited':'hidden'};width:{thumbSize}px">{image.name}</div>
 </div>
 
 <style>
-    .tile {
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+    }
+
+    .tile {        
         position: relative;
+        text-align: center;        
         float: left;
         overflow: hidden;
         background-color: white;
         filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));        
-        margin: 10px;        
+        margin: 10px;
     }
 
     .menu {
@@ -53,6 +62,7 @@
     .title {
         height: 20px;
         overflow: hidden;
+        white-space: nowrap;
         text-overflow: ellipsis;
     }    
 </style>

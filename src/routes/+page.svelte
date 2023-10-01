@@ -12,10 +12,9 @@
         <img width="75" height="75" alt="Logo" src="Logo_100.png"/>
         Jubileumsboka
     </h1>
-
     <Session>
         <div class="container">    
-            <UploadPanel on:uploaded={() => imageList.Refresh()}/>
+            <UploadPanel on:uploaded={onUploaded}/>
             <ImageList bind:this={imageList}/>                      
         </div>
     </Session>
@@ -45,7 +44,6 @@
         clear:both;
     }
 
-    
     :global(.rounded) {
         width: 128px;
         height: 32px;
@@ -56,12 +54,19 @@
         border: none;
         margin: 10px;
         border-radius: 15px;
-    }
+    }    
 
     :global(.rounded:hover) {
         background-color: white;
         color: black;
         outline: black solid 2px;
     }
+
+    :global(.rounded:disabled) {
+        background-color: gray;
+        color: white;
+        outline: none;
+    }
+
     
 </style>
