@@ -5,6 +5,16 @@
     import Information from "$lib/Information.svelte";
 
     let imageList: any;
+
+    function onUploaded(event: CustomEvent) {
+        var detailArray = event.detail;
+        console.log(detailArray.responses.length);
+        Array.from(detailArray.responses).forEach((upload: any) => 
+        {
+            console.log(upload);
+            imageList.AddUpload(upload);
+        });        
+    }
 </script>
 
 <div class="content">
