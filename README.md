@@ -32,6 +32,8 @@ Vi tar en gjennomgang av alle utvalgte bilder med skolekorpsets leder for å fje
 
 Ved å laste opp bilder her samtykker du i at vi kan bruke bildene vederlagsfritt i Lillestrøm skolekorps' jubileumsbok. 
 
+Les også gjeldende [Privacy policy](https://www.privacypolicies.com/live/c73d0263-b5d7-41a2-884a-f395d7085d14).
+
 ## Problemer?
 Løsningen er først og fremst tilpasset mobil, men den fungerer også teknisk i nettleseren på PC.
 Ta kontakt med Thor Stenbæk på e-post thorstenbaek@gmail.com for support.
