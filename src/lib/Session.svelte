@@ -40,6 +40,7 @@
 <p>
     <a href="https://www.privacypolicies.com/live/c73d0263-b5d7-41a2-884a-f395d7085d14" target="new">Privacy policy</a>
 </p>
+<br/>
 <p>
     {#if !$sessionStore}
         <FacebookAuth 

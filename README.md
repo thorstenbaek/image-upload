@@ -44,6 +44,9 @@ Redaksjonen for jubileumsboka
 
 ## Versjonshistorikk
 
+### Versjon 0.0.27 - oppdatert 1. desember 2023
+- Lagt til lett tilgjengelige lenker til gjeldende Privacy policy - påkrevet av Meta (Facebook).
+
 ### Versjon 0.0.25 - oppdatert 31. august 2023
 
 - Lagt inn støtte for opplasting av flere bilder om gangen. 
