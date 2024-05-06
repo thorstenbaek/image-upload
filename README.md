@@ -44,6 +44,9 @@ Redaksjonen for jubileumsboka
 
 ## Versjonshistorikk
 
+### Versjon 0.0.29 - oppdatert 6. mai 2024
+- Øket maks melding størrelse for å fikse opplasting av store bilder. Dette fungerte ikke i en periode.
+
 ### Versjon 0.0.27 - oppdatert 1. desember 2023
 - Lagt til lett tilgjengelige lenker til gjeldende Privacy policy - påkrevet av Meta (Facebook).
 
