@@ -1,11 +1,15 @@
 <script lang="ts">
     import Session from "$lib/Session.svelte";
     import ImageView from "../../lib/ImageView.svelte";
+    import PageNavigator from "../../lib/PageNavigator.svelte";
+    import {pageStore} from "../../stores";
+    import {sizeStore} from "../../stores";
 
     let currentImage:any  = null;
+    let pageSize: number = 25;
 
-    async function LoadImages(): Promise<any[]> {
-        const res = await fetch(`https://book-upload-backend.stenbaek.no/search?query=*&page=0&pageSize=1200`);
+    async function LoadImages(page: number, pageSize: number): Promise<any[]> {
+        const res = await fetch(`https://book-upload-backend.stenbaek.no/search?query=*&page=${page}&pageSize=${pageSize}`);
         const json = await res.json();
         console.log(json);
         return json;
@@ -23,9 +27,10 @@
     <ImageView image={currentImage} on:close={() => currentImage = null}/>
 {/if}
 
-{#await LoadImages()}
+{#await LoadImages($pageStore, $sizeStore)}
     Loading...
 {:then images}
+        <PageNavigator/>
         {#each images as image}
         <div class="card" on:click={(e) => currentImage = image} on:keypress={(e) => {}}>
             <h2>
